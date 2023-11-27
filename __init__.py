@@ -214,6 +214,13 @@ def my_reviewer_answer_card(self, ease):
     """Override the answerCard function to add the word to the deck if it's not there"""
     note = self.card.note()
 
+    # Send the review to the leaderboard even if it is not a jpdb card
+    if setting("ranking_username") and setting("ranking_pin"):
+        try:
+            send_review_to_leaderboard(ease)
+        except ValueError:
+            ...
+
     # Si la carta no tiene el campo elegido, ignorarla
     word_field = setting("word_fields")
     word = None
@@ -224,13 +231,6 @@ def my_reviewer_answer_card(self, ease):
 
     if word is None:
         return
-
-    if setting("ranking_username") and setting("ranking_pin"):
-        try:
-            send_review_to_leaderboard(ease)
-        except ValueError:
-            ...
-
     try:
         cached_info = get_cached_word_info(word)
         vid, sid, state = cached_info["vid"], cached_info["sid"], cached_info["state"]
