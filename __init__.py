@@ -36,11 +36,43 @@ def setting(key):
         "jpdb_session_token": None,
         "jpdb_mining_deck": 1,
         "word_fields": "Target",
+        "ranking_username": "",
+        "ranking_pin": ""
     }
     try:
         return aqt.mw.addonManager.getConfig(__name__).get(key, defaults[key])
     except Exception as error:
         raise KeyError(f'setting {key} not found: {error}') from error
+
+
+# Leaderboard related functions
+def send_review_to_leaderboard(ease):
+    """Send the review to the leaderboard"""
+    url = "https://jpdb.ajr.moe/add_points"
+
+    points = 0
+
+    if ease == 1:
+        points = 0.2
+    else:
+        points = 1
+
+    payload = json.dumps({
+        "username": setting("ranking_username"),
+        "pin": setting("ranking_pin"),
+        "points": points
+    })
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.request(
+        "POST", url, headers=headers, data=payload, timeout=5)
+
+    if "error" in response.json():
+        raise ValueError(response.json()["error"])
+
+# JPDB related functions
 
 
 def get_word_id(word):
@@ -192,6 +224,12 @@ def my_reviewer_answer_card(self, ease):
 
     if word is None:
         return
+
+    if setting("ranking_username") and setting("ranking_pin"):
+        try:
+            send_review_to_leaderboard(ease)
+        except ValueError:
+            ...
 
     try:
         cached_info = get_cached_word_info(word)

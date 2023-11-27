@@ -5,3 +5,7 @@
 **jpdb_session_token**: Token de sesión de JPDB, lo puedes encontrar en las cookies de la página con el id "sid". Se recomienda seleccionar el checkbox de "Recuérdame" a la hora de loguearse en JPDB para que dure más tiempo. (string)
 
 **word_fields**: Campo donde tengas la palabra clave/a estudiar en las cartas. Las cartas que no tengan este campo serán ignoradas. (string)
+
+**ranking_username**: Nombre de usuario a usar en el ranking. Si no estás registrado en el ranking pon el nombre de usuario que quieras usar.
+
+**ranking_pin**: Pin a usar en el ranking. Si no estás registrado pon el pin que quieras usar.

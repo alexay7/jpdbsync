@@ -2,5 +2,7 @@
     "jpdb_api_key": null,
     "jpdb_session_token": null,
     "jpdb_mining_deck": 1,
-    "word_fields": "Target"
+    "word_fields": "Target",
+    "ranking_username": "",
+    "ranking_pin": ""
 }
